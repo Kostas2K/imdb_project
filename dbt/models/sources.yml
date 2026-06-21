@@ -1,0 +1,77 @@
+sources:
+  - name: imdb
+    database: myprojectbq-328820
+    schema: imdb
+    tables:
+      - name: name_basics
+        description: "Information on artists in media including actors, directors, and writers."
+        identifier: name_basics
+        columns:
+          - name: nconst
+            description: "Unique identifier for each artist."
+          - name: primaryName
+            description: "Primary name of the artist."
+          - name: birthYear
+            description: "Birth year of the artist."
+          - name: deathYear
+            description: "Death year of the artist."
+          - name: knownForTitles
+            description: "Titles for which the artist is known."
+      - name: title_akas
+        description: "Alternative titles for movies and TV shows."
+        identifier: title_akas
+        columns:
+          - name: tconst
+            description: "Unique title identifier."
+          - name: title
+            description: "Alternative title."
+          - name: region
+            description: "Region where the title is used."
+          - name: language
+            description: "Language of the title."
+      - name: title_basics
+        description: "Basic information about any media type in the database."
+        identifier: title_basics
+        columns:
+          - name: tconst
+            description: "Unique title identifier."
+          - name: titleType
+            description: "Type of the title."
+          - name: primaryTitle
+            description: "Primary title of the media."
+          - name: originalTitle
+            description: "Original title of the media."
+          - name: isAdult
+            description: "Indicates if the media is for adults."
+          - name: startYear
+            description: "Year the media started."
+          - name: endYear
+            description: "Year the media ended."
+          - name: runtimeMinutes
+            description: "Runtime of the media in minutes."
+      - name: title_principals
+        description: "Information about the principal cast and crew for each title."
+        identifier: title_principals
+        columns:
+          - name: tconst
+            description: "Unique title identifier."
+          - name: nconst
+            description: "Unique identifier for each artist."
+          - name: category
+            description: "Category of the artist's role."
+          - name: job
+            description: "Job title of the artist."
+          - name: characters
+            description: "Characters played by the artist."
+      - name: title_ratings
+        description: "Viewing ratings for each title."
+        identifier: title_ratings
+        columns:
+          - name: tconst
+            description: "Unique title identifier."
+          - name: averageRating
+            description: "Average rating of the title."
+          - name: numVotes
+            description: "Number of votes for the title."
+        
+

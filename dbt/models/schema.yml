@@ -1,0 +1,67 @@
+
+version: 2
+
+models:
+  - name: dim_name_basics
+    description: "This table contains basic information about names in the IMDb dataset, such as their primary name, birth year, and death year."
+    columns:
+    - name: nconst
+      description: "A unique identifier for each name in the IMDb dataset, formatted as 'nm' followed by a series of digits (e.g., 'nm0000001')."
+      data_tests:
+        - not_null:
+            column_name: nconst
+        - unique:
+            column_name: nconst 
+
+
+  - name: dim_title_principals
+    columns:
+      - name: tconst
+        description: "A unique identifier for each title in the IMDb dataset, formatted as 'tt' followed by a series of digits (e.g., 'tt0000001')."
+        data_tests:
+          - not_null:
+              column_name: tconst
+        #relationships:
+         # - to: ref('dim_title_basics')
+         #   field: tconst
+          
+  - name: fct_titles
+    columns:
+      - name: avg_runtime
+        description: "The average runtime of a title in minutes."
+        data_tests:
+          - dbt_expectations.expect_column_quantile_values_to_be_between:
+              arguments:
+                column_name: avg_runtime
+                quantile: 0.99
+                min_value: 0
+                max_value: 500
+          - unique:
+              column_name: tconst
+
+         #     column_name: avg_runtime
+
+
+
+  - name: dim_title_ratings
+    columns:
+    - name: tconst
+      data_type: string
+    - name: averageRating
+      data_type: float
+    
+    - name: numVotes
+      data_tests:
+        - positive_values
+#            column_name: numVotes
+    
+    - name: averageRating
+      data_tests:
+        - positive_values
+#            column_name: averageRating
+
+  - name: dim_title_akas
+    data_tests:
+      - minimum_row_count:
+          arguments:
+            min_row_count: 10000000
